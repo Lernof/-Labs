@@ -2,12 +2,14 @@ bank_account = 0
 def addToBankAccount(x: float) -> None:
     global bank_account
     bank_account += x
+    print(f'money: {bank_account}')
 
 def substractFromBankAccount(x: float) -> None:
     global bank_account
     bank_account -= x
     if bank_account < 0:
-        bank_account = 0
+        print('You dont have such money')
+    else: print(f'money: {bank_account}')
 
 def moneyConversion(x: float, currency1: str, currency2: str) -> None:
     global bank_account
