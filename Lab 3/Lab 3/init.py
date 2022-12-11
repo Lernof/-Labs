@@ -26,7 +26,7 @@ def index():
     current_user = None
     while True:
 
-        command = input('\nEnter command or enter q to quit: \n1 - sign up\t2 - sign in\n3 - make wallet\t 4 - delete account\n5 - refill account\t6 - subtract\n7 - Show account information: ')
+        command = input('\nEnter command or enter q to quit: \n1 - sign up\t2 - sign in\n3 - make wallet\t 4 - delete account\n5 - refill account\t6 - subtract\n7 - Show account information\t8 - money conversion: ')
         
         match command, current_user:
             case '1', current_user:
@@ -75,6 +75,14 @@ def index():
             case '7', current_user:
                 name, surname = input('Write user(Name Surname): ').split()
                 user_handlers.toString(name=name, surname=surname)
-            
+
+            case '8', current_user if current_user != None:
+                wallet_type1, wallet_type2 = input('Enter wallet from ____ to ____ you need to transfer: ').split()
+                amount = int(input('Enter amount of money: '))
+                wallet_type1 = formating_wallet_type(wallet_type=wallet_type1)
+                wallet_type2 = formating_wallet_type(wallet_type=wallet_type2)
+
+                user_handlers.money_conversion(name=name, surname=surname, wallet_type1=wallet_type1, wallet_type2=wallet_type2, amount=amount)
+
             case _:
                 print('Wrong command or you haven\'t signed in')

@@ -63,6 +63,12 @@ class UserHandlers:
         
         self.services.substractFromBankAccount(amount=amount, name=name, surname=surname, wallet_type=wallet_type)
 
+    def money_conversion(self, name:str, surname: str, wallet_type1: WalletType, wallet_type2: WalletType, amount: float):
+        if amount < 0:
+            print('Invalid amount of money')
+            return
+        self.services.money_conversion(name=name, surname=surname, wallet_type1=wallet_type1, wallet_type2=wallet_type2, amount=amount)
+
     def validate_creds(self, name: str, surname: str) -> bool:
         if '$' in name or '$' in surname:
             return False

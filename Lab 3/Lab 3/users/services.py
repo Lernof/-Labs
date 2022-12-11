@@ -33,6 +33,9 @@ class UserServices:
     def substractFromBankAccount(self, name: str, surname:str, wallet_type: WalletType, amount: int):
         self.repositories.substractFromBankAccount(name=name, surname=surname, wallet_type=wallet_type, amount=amount)
 
+    def money_conversion(self, name:str, surname:str, amount: float, wallet_type1: WalletType, wallet_type2: WalletType):
+        self.repositories.money_confersion(name=name, surname=surname, wallet_type1=wallet_type1, wallet_type2=wallet_type2, amount=amount)
+
     @staticmethod
     def send_email_verification(email: str) -> None:
         print(f'send email to {email}')

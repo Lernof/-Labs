@@ -15,7 +15,19 @@ class UserRepositories:
         if not self.validate_wallet_type(wallet_type=wallet_type, user=user):
             return
 
-        user.create_wallet(wallet_type=wallet_type)
+        usd_coefficient: float = 0
+
+        match wallet_type.name:
+            case wallet_type.name if wallet_type.name == 'USD':
+                usd_coefficient = 1
+            case wallet_type.name if wallet_type.name == 'KZT':
+                usd_coefficient = 0.002
+            case wallet_type.name if wallet_type.name == 'EUR':
+                usd_coefficient = 1.05
+            case wallet_type.name if wallet_type.name == 'RUB':
+                usd_coefficient = 0.016
+
+        user.create_wallet(wallet_type=wallet_type, usd_coefficient=usd_coefficient)
         print(f'wallet with wallet type {wallet_type} was added to the \'{name}-{surname}\' account')
 
     def toString(self, name:str, surname:str):
@@ -25,7 +37,7 @@ class UserRepositories:
         print(f'{user.name=}\t{user.surname=}')
         print('Your wallets: ')
         for i in user.wallets:
-            print(f'Wallet type: {i.wallet_type.name}, cash amount: {i.cash_amount}')
+            print(f'Wallet type: {i.wallet_type.name}, cash amount: {i.cash_amount}, usd_coefficient: {i.usd_coefficient}')
 
 
     def delete_user(self, name:str, surname: str):
@@ -49,11 +61,15 @@ class UserRepositories:
         user = self.get_user(name=name, surname=surname)
         if not user:
             return
-        
+
         if not self.wallet_availability_check(wallet_type=wallet_type,user=user):
             return
 
         user.substractFromBankAccount(amount=amount, wallet_type=wallet_type)
+
+    def money_confersion(self, wallet_type1: WalletType, wallet_type2: WalletType, amount: float, name: str, surname: str):
+        user = self.get_user(name=name,surname=surname)
+        user.money_conversion(wallet_type1=wallet_type1, wallet_type2=wallet_type2, amount=amount)
 
     def get_user(self, name: str, surname: str):
         user = next((w for w in self.users if w.name == name and w.surname == surname), None)
